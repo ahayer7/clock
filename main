@@ -1,15 +1,36 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.Calendar;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class clock {
    public static void main(String[] args) {
+      JFrame frame = new JFrame("Clock");
+      frame.setSize(400, 200);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+      frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
+
+      JLabel timeLabel = new JLabel("", SwingConstants.CENTER);
+      timeLabel.setFont(new Font("Hellmuth", Font.PLAIN, 48));
+      timeLabel.setForeground(new Color(128, 0, 128));
+
+      frame.add(timeLabel);
+
+      frame.setVisible(true);
+
       while (true) {
          Calendar cal = Calendar.getInstance();
          int hour = cal.get(Calendar.HOUR_OF_DAY);
          int minute = cal.get(Calendar.MINUTE);
          int second = cal.get(Calendar.SECOND);
-         String day = cal.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
-         System.out.println(String.format("%02d:%02d:%02d %s", hour, minute, second, day));
-         
+         String am_pm = cal.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
+         timeLabel.setText(String.format("%02d:%02d:%02d %s", hour, minute, second, am_pm));
          try {
             Thread.sleep(1000);
          } catch (InterruptedException e) {
